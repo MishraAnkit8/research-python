@@ -18,12 +18,13 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from WebApp.views import dashboard_view, research_paper , journal_paper
+from WebApp.views.dashboard import dashboard_view
+from WebApp.views.research import research_main_view
 
 urlpatterns = [
 path('admin/', admin.site.urls),
-path('dashboard/', dashboard_view, name = 'dashboard'),
-path('research/' , research_paper , name = 'research.html'),
-path('journal-paper/' , journal_paper , name = 'journal-paper.html')
+path('dashboard/', research_main_view, name = 'dashboard'),
+path('research/', research_main_view, name = 'research'),
+
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
