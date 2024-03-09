@@ -1,0 +1,577 @@
+{% include 'partials/head.html' %}
+{% load static %}
+
+
+
+<!-- inline css -->
+<!-- Navbar section -->
+{% include 'partials/header.html' %}
+
+<!-- left-side-bar -->
+
+{% include 'partials/left-sidebar.html' %}
+
+      
+<!-- This is right side section -->
+
+<!-- This is right side section -->
+<main class="main" id="mainContent">
+    <div class="base-section coustom-section">
+        <!--DASHBOARD CONTENT START-->
+        <div class="errorHtml"></div>
+        <div class="breadcrumbs-container">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-link">
+                    <a href="{% url 'research.html' %}"> RESEARCH </a>
+                </li>
+                <li class="breadcrumb-link">JOURNAL PAPER</li>
+            </ul>
+        </div>
+        <div >
+            <div class="table-card-header text-uppercase d-flex align-items-center justify-content-between">
+                <div>
+                    <h5 class="pl-2">JOURNAL PAPER LIST</h5>
+                </div>
+                <div >
+                    <button id="journal-paper-add-modal" type="button" class="btn btn-primary add-modal" data-toggle="modal"
+                        data-target="#journal-paper-modal">
+                        <i class="fas fa-plus plus 2x"></i></button>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body table-responsive">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <label>Show Entries</label>
+                        <select class="form-select" id="changeEntry">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="200">200</option>
+                            <option value="250">250</option>
+                            <option value="300">300</option>
+                            <option value="350">350</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
+                            <option value="800">800</option>
+                            <option value="1000">1000</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="table-searchbar-container">
+                            <button type="button" id="searchBtn"><i class="fas fa-search"></i></button>
+                            <input type="search" id="searchKeyword" placeholder="Enter keywords" class="table-searchbar">
+                        </div>
+                    </div>
+                </div>
+                <table class="table custom-table table-responsive research-pagination" id="journal-paper-list">
+                    <thead>
+                        <th class="col-lg-1" >#</th>
+                        <th class="col-lg-1">Year Of Publishing</th>
+                        <th class="col-lg-1">School</th>
+                        <th class="col-lg-1">Campus</th>
+                        <th class="col-lg-1">Policy Cadre</th>
+                        <th class="col-lg-1">Publisher</th>
+                        <th class="col-lg-1">Names Of All Authors</th>
+                        <th class="col-lg-1">Total No. of Authors</th>
+
+                        <th class="col-lg-1">Names of NMIMS Authors</th>
+                        <th class="col-lg-1">Journal Name</th>
+                        <th class="col-lg-1">Action</th>
+                    </thead>
+                   
+                </table>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <label> Total entries:  </label>
+                        <label class="d-none" id="row-count"> </label>
+                    </div>
+                    <div>
+                        <button id="prevBtn" class="btn btn-primary">Previous</button>
+                        <button id="nextBtn" class="btn btn-primary">Next</button>
+                        <p id="pagination" class="pagination-search"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Import Modal -->
+        <div class="modal fade" id="open-program-modal" tabindex="-1" aria-labelledby="open-program-modal"
+            aria-hidden="true">
+        </div>
+        <!-- EDIT PROGRAM AND UPDATE -->
+        <div class="modal fade" id="edit-program-modal" tabindex="-1" aria-labelledby="editModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg modal-fullscreen p-5">
+                <div class="modal-content modal-content-data">
+                    <div class="modal-header">
+                        <div class="modal-title" id="editModalLabel">Update Program</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="errorHtml"></div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Program Name</label>
+                            <input type="text" class="form-control" id="program_name" name="program_name">
+                            <input type="hidden" class="form-control" id="hidden_id" name="hidden_id">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Program Type</label>
+                            <select class="form-control" name="program_type_lid" id="program_type_lid">
+                                <option value="1">Full Time</option>
+                                <option value="2">Part Time</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="abbr" class="form-label">Program Abbr</label>
+                            <input type="text" class="form-control" id="abbr" name="abbr">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- journal paper modal form  -->
+<div class="modal fade " id="journal-paper-modal" tabindex="-1" role="dialog" aria-labelledby="journal-paper-modal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-fullscreen p-5" role="document">
+        <div class="modal-content modal-content-data validate-input">
+            <div class="modal-header">
+                <h4 class="modal-title" id="journal-paper-title">Journal Papers</h4>
+                <div class="close" data-dismiss="modal" aria-label="Close">
+                    <span type="button" aria-hidden="true"><i class="fas fa-times "></i></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- year -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="year" class="form-label fw-bold">Year Of Publishing </label>
+                        <input type="number" name="year" id="year" data-validate="isEmpty,isNumber,isValidYear" data-err-msg="Year is required." class="form-control"  required/>
+                    </div>
+                    <!-- school -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="campus" class="form-label fw-bold"> School </label>
+                        <input type="text" name="SchoolName" id="school" data-validate="isEmpty,isNotNumber,isExist,isNotSpecialChar" data-err-msg="This field is required and min length > 1." class="form-control"
+                             required/>
+                    </div>
+                    <!-- Campus -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="campus" class="form-label fw-bold"> Campus </label>
+                        <input type="text" name="campusname" id="campus" data-validate="isEmpty,isNotNumber,isExist,isNotSpecialChar" data-err-msg="This field is required and min length > 1." class="form-control"
+                             required/>
+                    </div>
+                    <!--Policy Cadre -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="policyCadre" class="form-label fw-bold"> Policy Cadre </label>
+                        <input type="text" name="policy-cadre" id="policy-cadre" data-validate="isEmpty,isNotNumber,isExist,isNotSpecialChar" data-err-msg="This field is required and min length > 1." class="form-control"
+                             required />
+                    </div>
+                    <!-- All authors -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="all-authors" class="form-label fw-bold">Names Of All Authors</label>
+                        <input type="text" name="all-authors" id="all-authors" data-validate="isEmpty,isNotNumber,isExist,isNotSpecialChar" data-err-msg="This field is required and min length > 1." class="form-control" required>
+                    </div>
+                    <!-- Total No. of Authors -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="totalAuthors" class="form-label fw-bold">Total No. of Authors</label>
+                        <input type="number" name="total-authors" id="total-authors" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required." class="form-control"
+                            required>
+                    </div>
+                    <!-- Name of NMIMS Authors -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="nmims-authors" class="form-label fw-bold">Names Of NMIMS Authors</label>
+                        <input type="text" name="nmims-authors" id="nmims-authors" data-validate="isEmpty,isLength:2:255"  data-err-msg="This field is required and min length > 1." class="form-control"
+                             required>
+                    </div>
+                    <!-- No. of NMIMS Authors -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="NMIMSAuthors" class="form-label fw-bold">No. of NMIMS Authors</label>
+                        <input type="number" name="volumes" id="nmims-authors-count" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required." class="form-control"
+                             required>
+                    </div>
+                    <!-- Journal Name -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="journalName" class="form-label fw-bold">Journal Name</label>
+                        <input type="text" name="journal-name" id="journal-name" data-validate="isEmpty,isLength:2:255" data-err-msg="This field is required and min length > 1." class="form-control"
+                             required>
+                    </div>
+                    <!-- Name Of Foreign Authors -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="foreign-authors" class="form-label fw-bold">Names Of Foreign Authors </label>
+                        <input type="text" name="foreign-authors" id="foreign-authors" data-validate="isEmpty,isLength:2:255"  data-err-msg="This field is required and min length > 1." class="form-control"
+                        required>
+                    </div>
+                    <!-- Number Of Foreign Authors -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="foreign-authors-number" class="form-label fw-bold">No. Of Foreign Authors</label>
+                        <input type="number" name="journal-name" id="foreign-authors-number" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required" class="form-control"
+                             required>
+                    </div>
+                    <!-- Publisher -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="publisher" class="form-label fw-bold"> Publisher </label>
+                        <input type="text" name="publisher" id="publisher" data-validate="isEmpty,isNotNumber,isExist" data-err-msg="This field is required and min length > 1." class="form-control" required/>
+                    </div>
+                    <!-- Count of Other Faculty -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="count-other-faculty" class="form-label fw-bold">Count of Other Faculty</label>
+                        <input type="number" name="count-other-faculty" id="count-other-faculty"  data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required." class="form-control" required/>
+                    </div>
+                    <!-- Pages-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="page" class="form-label fw-bold">Vol,Issue,Page No.</label>
+                        <input type="number" name="pages" id="pages" class="form-control" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required."  required>
+                    </div>
+                    <!-- ISSN No. -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="issNo" class="form-label fw-bold">ISSN No.</label>
+                        <input type="number" name="iss-no" id="issn-no" class="form-control" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required." required>
+                    </div>
+                    <!-- SCS Cite Score -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="scs-cite-score" class="form-label fw-bold">Scopus Cite Score</label>
+                        <input type="number" name="scsCiteScores" id="scs-cite-score" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required." class="form-control" required>
+                    </div>
+                    <!-- Impact Factor -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="impact-factor" class="form-label fw-bold">Impact Factor As Per Clarivate Analytics </label>
+                        <input type="text" name="impactFactors" id="impact-factor" data-validate="isEmpty,isNotNumber,isExist,isLength:2:255" data-err-msg="This field is required and min length > 1."   class="form-control" required>
+                    </div>
+                    <!-- Weblink-DOI Number -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="web-link" class="form-label fw-bold">WEB Link DOI No.</label>
+                        <input type="number" name="webLinks" id="web-link-num"  class="form-control" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required" required>
+                    </div>
+                    <!-- Names of NMIMS Student  Author-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="names-nmims-student-author" class="form-label fw-bold">Names of NMIMS Student  Author</label>
+                        <input type="text"  id="names-nmims-student-author" data-validate="isEmpty,isLength:2:255"  data-err-msg="This field is required and min length > 1." class="form-control"
+                        required>
+                    </div>
+                    <!-- NO. OF NMIMS Student  Authors-->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="no-nmims-student-author" class="form-label fw-bold">NO. OF NMIMS Student  Authors</label>
+                        <input type="number"  id="no-nmims-student-author" class="form-control" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required" required>
+                    </div>
+                    <!-- Date of Publishing -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="date-of-publishing" class="form-label fw-bold">Date of Publishing</label>
+                        <input type="date" name="dop" id="date-of-publishing" data-validate="isEmpty,isExist" data-err-msg="Date is required" class="form-control" required>
+                    </div>
+                    <!-- title-of-paper -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="title-of-paper" class="form-label fw-bold">Title Of Paper</label>
+                        <input type="text" name="dop" id="title-of-paper" data-validate="isEmpty,isNotNumber,isExist" data-err-msg="This is required field and min length > 1." class="form-control" required>                    
+                    </div>
+                     <!-- Research Journal Paper  -->
+                     <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="journal-category" id="journal-category" class="form-label fw-bold mb-3">International/National Journal</label><br>
+                        <div class="form-check-inline">
+                            <label for="inter-national" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="inter-national" name="journal-category" value="International"> International
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label for="national" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="national" name="journal-category" value="National" checked> National
+                            </label>
+                        </div>
+                    </div>
+                      <!-- SCS Indexed -->
+                      <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="scs-indexed" class="form-label fw-bold mb-3"> Scopus Indexed </label><br>
+                        <div class="form-check-inline">
+                            <label for="scopus-yes" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="scopus-yes" name="scopus-category" value="Yes"> Yes
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label for="scopus-no" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="scopus-no" name="scopus-category" value="No" checked> No
+                            </label>
+                        </div>
+                    </div>
+                    <!-- WoS Indexed -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="wos-indexed" class="form-label fw-bold mb-3">WoS Indexed</label><br>
+                        <div class="form-check-inline">
+                            <label for="wos-index-yes" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="wos-index-yes" name="wos-index-category" value="Yes"> Yes
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label for="wos-index-no" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="wos-index-no" name="wos-index-category" value="No" checked> No
+                            </label>
+                        </div>
+                    </div>
+                    <!-- GS Indexed -->
+                    <!-- <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="gs-index" class="form-label fw-bold">GS Indexed</label>
+                        <input type="number" name="gs-indexed" id="gs-indexed" data-validate="isEmpty,isNumber" data-err-msg="Numeric value is required" class="form-control" required>
+                    </div> -->
+                    <!-- ABDC Indexed -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="gs-index" class="form-label fw-bold mb-3">ABDC Indexed</label><br>
+                        <div class="form-check-inline">
+                            <label for="abdc-index-yes" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="abdc-index-yes" name="abdc-index-category" value="Yes"> Yes
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label for="abdc-index-no" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="abdc-index-no" name="abdc-index-category" value="No" checked> No
+                            </label>
+                        </div>
+                    </div>
+                    <!-- UGC Indexed -->
+                    <div class="form-group col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="ugc-indexed" class="form-label fw-bold mb-3">UGC Indexed</label><br>
+                        <div class="form-check-inline">
+                            <label for="ugc-index-yes" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="ugc-index-yes" name="ugc-index-category" value="Yes"> Yes
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label for="ugc-index-no" class="form-check-label">
+                                <input type="radio" class="form-check-input" id="ugc-index-no" name="ugc-index-category" value="No" checked> No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="close-btn">Close</button>
+                <button type="button" class="btn btn-primary d-none" id="submit-btn">Submit</button>
+                <button type="button" class="btn btn-primary d-none " id="update-btn">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal form for view -->
+<div class="modal fade " id="journal-paper-modal-view" tabindex="-1" role="dialog" aria-labelledby="journal-paper-modal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-fullscreen p-5" role="document">
+        <div class="modal-content modal-content-data">
+            <div class="modal-header">
+                <h4 class="modal-title" id="journal-paper-title">Journal Papers</h4>
+                <div class="close" data-dismiss="modal" aria-label="Close">
+                    <span type="button" aria-hidden="true"><i class="fas fa-times "></i></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Year -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Year:</div>
+                            <label class="view-content" id="view-year"></label>
+                        </div>
+                    </div>
+                    <!-- school -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">School:</div>
+                            <label class="view-content" id="view-school"></label>
+                        </div>
+                    </div>
+                    <!-- Campus -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Campus:</div>
+                            <label class="view-content" id="view-campus"></label>
+                        </div>
+                    </div>
+                    <!--Policy Cadre -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Policy Cadre:</div>
+                            <label class="view-content" id="view-policy-cadre"></label>
+                        </div>
+                    </div>
+                    <!-- All authors -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">All authors:</div>
+                            <label class="view-content" id="view-all-authors"></label>
+                        </div>
+                    </div>
+                    <!-- Total No. of Authors -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Total No. of Authors:</div>
+                            <label class="view-content" id="view-total-authors"></label>
+                        </div>
+                    </div>
+                    <!-- Name of NMIMS Authors -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Name Of NMIMS Authors:</div>
+                            <label class="view-content" id="view-nmims-authors"></label>
+                        </div>
+                    </div>
+                    <!-- Journal Name -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Journal Name:</div>
+                            <label class="view-content" id="view-journal-name"></label>
+                        </div>
+                    </div>
+                    <!-- Publisher -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Publisher:</div>
+                            <label class="view-content" id="view-publisher"></label>
+                        </div>
+                    </div>
+                    <!-- Count Faculty -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Count Other Faculty:</div>
+                            <label class="view-content" id="view-count-of-other-faculty"></label>
+                        </div>
+                    </div>
+                    <!-- iss -number -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">ISSN No:</div>
+                            <label class="view-content" id="view-issn-no"></label>
+                        </div>
+                    </div>
+                    <!-- pages -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Pages:</div>
+                            <label class="view-content" id="view-pages"></label>
+                        </div>
+                    </div>
+                    <!-- Scs-cite-score -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Scopus Cite Score:</div>
+                            <label class="view-content" id="view-scs-cite-score"></label>
+                        </div>
+                    </div>
+                    <!-- impact-factor -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Impact Factor:</div>
+                            <label class="view-content" id="view-impact-factor"></label>
+                        </div>
+                    </div>
+                    <!--scs-indexed  category-->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Scopus Indexed:</div>
+                            <label class="view-content" id="view-scs-indexed-category"></label>
+                        </div>
+                    </div>
+                    <!--wos-indexed -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Wos Indexed:</div>
+                            <label class="view-content" id="view-wos-indexed-category"></label>
+                        </div>
+                    </div>
+                    <!--NAMES OF FOREIGN AUTHORS-->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Name Of Foreign Authors:</div>
+                            <label class="view-content" id="view-foreign-authors"></label>
+                        </div>
+                    </div>
+
+                       <!--Names of NMIMS Student  Author-->
+                       <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Names of NMIMS Student  Author:</div>
+                            <label class="view-content" id="view-names-nmims-student-author"></label>
+                        </div>
+                    </div>
+
+                       <!--NO. OF NMIMS Student  Authors-->
+                       <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">NO. OF NMIMS Student  Authors:</div>
+                            <label class="view-content" id="view-no-nmims-student-author"></label>
+                        </div>
+                    </div>
+                    <!--abdc-indexed-->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Abcd Indexed:</div>
+                            <label class="view-content" id="view-abdc-indexed-category"></label>
+                        </div>
+                    </div>
+                    <!--ugc-indexed -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Ugc Indexed:</div>
+                            <label class="view-content" id="view-ugc-indexed-category"></label>
+                        </div>
+                    </div>
+                    <!--web-link -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3 web-link d-none">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Web Link DOI Number:</div>
+                            <label class="view-content" id="view-web-link-doi-number"></label>
+                        </div>
+                    </div>
+                    <!--NO. OF FOREIGN AUTHORS -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">No Of Foreign Authors:</div>
+                            <label class="view-content" id="view-foreign-authors-number"></label>
+                        </div>
+                    </div>
+                    <!--date-of-publishing -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Date Of Publishing:</div>
+                            <label class="view-content" id="view-date-of-publishing"></label>
+                        </div>
+                    </div>
+                    <!--Title of Paper -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Title Of Paper :</div>
+                            <label class="view-content" id="view-title-of-paper"></label>
+                        </div>
+                    </div>
+                    <!--Research Journal Paper -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">Research Journal Paper:</div>
+                            <label class="view-content" id="view-journal-category"></label>
+                        </div>
+                    </div>
+                    <!--nmims_authors_count -->
+                    <div class="col-lg-4 col-md-6  col-sm-12 p-3">
+                        <div class="box">
+                            <div class="sub-title-text sub-title">NMIMS Authors Count :</div>
+                            <label class="view-content" id="view-nmims-authors-count"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- inline Javascript -->
+
+<!-- for pagination -->
+
+<!-- footer section -->
+{% include 'partials/footer.html' %}
+{% include 'partials/footer-end.html' %}
+
+
